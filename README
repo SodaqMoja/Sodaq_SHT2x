@@ -1,4 +1,4 @@
-This is an Arduino library for the SHT2x humidity and temperature sensors. 
+This is an Arduino library for the SHT21 / SHT25 humidity and temperature sensors. 
 
 Pick one up at http://www.misenso.com/products/001/
 
