@@ -57,7 +57,11 @@ typedef enum {
  **********************************************************/
 float SHT2xClass::GetHumidity(void)
 {
-    return -6.0 + 125.0 / 65536.0 * readSensor(eRHumidityHoldCmd);
+    float value = readSensor(eRHumidityHoldCmd);
+    if (value == 0) {
+        return 0;                       // Some unrealistic value
+    }
+    return -6.0 + 125.0 / 65536.0 * value;
 }
 
 /**********************************************************
@@ -68,7 +72,11 @@ float SHT2xClass::GetHumidity(void)
  **********************************************************/
 float SHT2xClass::GetTemperature(void)
 {
-    return -46.85 + 175.72 / 65536.0 * readSensor(eTempHoldCmd);
+    float value = readSensor(eTempHoldCmd);
+    if (value == 0) {
+        return -273;                    // Roughly Zero Kelvin indicates an error
+    }
+    return -46.85 + 175.72 / 65536.0 * value;
 }
 
 
@@ -86,8 +94,11 @@ uint16_t SHT2xClass::readSensor(uint8_t command)
     Wire.endTransmission();
 
     Wire.requestFrom(eSHT2xAddress, 3);
+    uint32_t timeout = millis() + 300;       // Don't hang here for more than 300ms
     while (Wire.available() < 3) {
-        ; //wait
+        if ((millis() - timeout) > 0) {
+            return 0;
+        }
     }
 
     //Store the result
