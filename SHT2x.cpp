@@ -3,14 +3,14 @@
 
   Supported Sensor modules:
     SHT21-Breakout Module - http://www.moderndevice.com/products/sht21-humidity-sensor
-	SHT2x-Breakout Module - http://www.misenso.com/products/001
-	
+    SHT2x-Breakout Module - http://www.misenso.com/products/001
+
   Created by Christopher Ladden at Modern Device on December 2009.
   Modified by Paul Badger March 2010
   
   Modified by www.misenso.com on October 2011:
-	- code optimisation
-	- compatibility with Arduino 1.0
+    - code optimisation
+    - compatibility with Arduino 1.0
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -46,7 +46,7 @@
  **********************************************************/
 float SHT2xClass::GetHumidity(void)
 {
-	return (-6.0 + 125.0 / 65536.0 * (float)(readSensor(eRHumidityHoldCmd)));
+    return (-6.0 + 125.0 / 65536.0 * (float)(readSensor(eRHumidityHoldCmd)));
 }
 
 /**********************************************************
@@ -57,7 +57,7 @@ float SHT2xClass::GetHumidity(void)
  **********************************************************/
 float SHT2xClass::GetTemperature(void)
 {
-	return (-46.85 + 175.72 / 65536.0 * (float)(readSensor(eTempHoldCmd)));
+    return (-46.85 + 175.72 / 65536.0 * (float)(readSensor(eTempHoldCmd)));
 }
 
 
@@ -69,10 +69,10 @@ uint16_t SHT2xClass::readSensor(uint8_t command)
 {
     uint16_t result;
 
-    Wire.beginTransmission(eSHT2xAddress);	//begin
-    Wire.write(command);					//send the pointer location
+    Wire.beginTransmission(eSHT2xAddress);  //begin
+    Wire.write(command);                    //send the pointer location
     delay(100);
-    Wire.endTransmission();               	//end
+    Wire.endTransmission();                 //end
 
     Wire.requestFrom(eSHT2xAddress, 3);
     while(Wire.available() < 3) {
@@ -82,7 +82,7 @@ uint16_t SHT2xClass::readSensor(uint8_t command)
     //Store the result
     result = ((Wire.read()) << 8);
     result += Wire.read();
-	result &= ~0x0003;   // clear two low bits (status bits)
+    result &= ~0x0003;   // clear two low bits (status bits)
     return result;
 }
 
