@@ -27,9 +27,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include <inttypes.h>
+#include <stdint.h>
+#include <Arduino.h>
 #include <Wire.h>
-#include "Arduino.h"
 #include "SHT2x.h"
 
 
@@ -57,7 +57,7 @@ typedef enum {
  **********************************************************/
 float SHT2xClass::GetHumidity(void)
 {
-    return (-6.0 + 125.0 / 65536.0 * (float)(readSensor(eRHumidityHoldCmd)));
+    return -6.0 + 125.0 / 65536.0 * readSensor(eRHumidityHoldCmd);
 }
 
 /**********************************************************
@@ -68,7 +68,7 @@ float SHT2xClass::GetHumidity(void)
  **********************************************************/
 float SHT2xClass::GetTemperature(void)
 {
-    return (-46.85 + 175.72 / 65536.0 * (float)(readSensor(eTempHoldCmd)));
+    return -46.85 + 175.72 / 65536.0 * readSensor(eTempHoldCmd);
 }
 
 
@@ -80,18 +80,18 @@ uint16_t SHT2xClass::readSensor(uint8_t command)
 {
     uint16_t result;
 
-    Wire.beginTransmission(eSHT2xAddress);  //begin
-    Wire.write(command);                    //send the pointer location
+    Wire.beginTransmission(eSHT2xAddress);
+    Wire.write(command);
     delay(100);
-    Wire.endTransmission();                 //end
+    Wire.endTransmission();
 
     Wire.requestFrom(eSHT2xAddress, 3);
-    while(Wire.available() < 3) {
-      ; //wait
+    while (Wire.available() < 3) {
+        ; //wait
     }
 
     //Store the result
-    result = ((Wire.read()) << 8);
+    result = Wire.read() << 8;
     result += Wire.read();
     result &= ~0x0003;   // clear two low bits (status bits)
     return result;
