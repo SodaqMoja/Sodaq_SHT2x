@@ -9,7 +9,7 @@
  ***************************************************************/
 
 #include <Wire.h>
-#include <SHT2x.h>
+#include <Sodaq_SHT2x.h>
 
 
 void setup()
