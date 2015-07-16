@@ -107,6 +107,10 @@ uint16_t SHT2xClass::readSensor(uint8_t command)
     result = Wire.read() << 8;
     result += Wire.read();
     result &= ~0x0003;   // clear two low bits (status bits)
+
+    //Clear the final byte from the buffer
+    Wire.read();
+
     return result;
 }
 
