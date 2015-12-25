@@ -33,6 +33,7 @@
 #define SHT2X_H
 
 #include <stdint.h>
+#include <math.h>
 
 class SHT2xClass
 {
@@ -42,6 +43,7 @@ class SHT2xClass
   public:
     float GetHumidity(void);
     float GetTemperature(void);
+    float GetDewPoint(void);
 };
 
 extern SHT2xClass SHT2x;

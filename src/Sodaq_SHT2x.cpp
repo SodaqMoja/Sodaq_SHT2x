@@ -34,6 +34,9 @@
 #include <Wire.h>
 #include "Sodaq_SHT2x.h"
 
+// Specify the constants for water vapor and barometric pressure.
+#define WATER_VAPOR 17.62f
+#define BAROMETRIC_PRESSURE 243.5f
 
 typedef enum {
     eSHT2xAddress = 0x40,
@@ -81,6 +84,24 @@ float SHT2xClass::GetTemperature(void)
     return -46.85 + 175.72 / 65536.0 * value;
 }
 
+/**********************************************************
+ * GetDewPoint
+ *  Gets the current dew point based on the current humidity and temperature
+ *
+ * @return float - The dew point in Deg C
+ **********************************************************/
+float SHT2xClass::GetDewPoint(void)
+{
+  float humidity = GetHumidity();
+  float temperature = GetTemperature();
+
+  // Calculate the intermediate value 'gamma'
+  float gamma = log(humidity / 100) + WATER_VAPOR * temperature / (BAROMETRIC_PRESSURE + temperature);
+  // Calculate dew point in Celsius
+  float dewPoint = BAROMETRIC_PRESSURE * gamma / (WATER_VAPOR - gamma);
+
+  return dewPoint;
+}
 
 /******************************************************************************
  * Private Functions
