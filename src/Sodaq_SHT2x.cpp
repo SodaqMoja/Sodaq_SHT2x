@@ -30,6 +30,7 @@
  */
 
 #include <stdint.h>
+#include <math.h>
 #include <Arduino.h>
 #include <Wire.h>
 #include "Sodaq_SHT2x.h"

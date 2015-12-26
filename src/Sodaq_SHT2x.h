@@ -33,7 +33,6 @@
 #define SHT2X_H
 
 #include <stdint.h>
-#include <math.h>
 
 class SHT2xClass
 {
