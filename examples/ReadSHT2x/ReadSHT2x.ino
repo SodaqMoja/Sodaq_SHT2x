@@ -24,6 +24,8 @@ void loop()
   Serial.print(SHT2x.GetHumidity());
   Serial.print("     Temperature(C): ");
   Serial.println(SHT2x.GetTemperature());
+  Serial.print("     Dewpoint(C): ");
+  Serial.println(SHT2x.GetDewPoint());
   
   delay(1000);
 }
